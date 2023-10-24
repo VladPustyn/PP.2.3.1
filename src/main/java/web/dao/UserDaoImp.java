@@ -30,25 +30,18 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUser(int id) {
-        Query query = entityManager.createQuery("from User where id = :userId");
-        query.setParameter("userId", id);
-        return (User) query.getSingleResult();
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public void update(int id, User updateUser) {
-        Query query = entityManager.createQuery("update User set name = :name, age = :age, phoneNumber = :phoneNumber where id = :id");
-        query.setParameter("name", updateUser.getName());
-        query.setParameter("age", updateUser.getAge());
-        query.setParameter("phoneNumber", updateUser.getPhoneNumber());
-        query.setParameter("id", id);
-        query.executeUpdate();
+       updateUser.setId(id);
+       entityManager.merge(updateUser);
     }
 
     @Override
     public void delete(int id) {
-        Query query = entityManager.createQuery("delete from User where id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
 }

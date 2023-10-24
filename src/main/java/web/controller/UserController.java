@@ -52,7 +52,7 @@ public class UserController {
         return "edit";
     }
 
-    @PostMapping("update")
+    @PatchMapping("update")
     public String update(@RequestParam(name = "id") int id, @ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -62,7 +62,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("delete")
+    @DeleteMapping("delete")
     public String delete(@RequestParam(name = "id") int id) {
         userService.delete(id);
         return "redirect:/";
